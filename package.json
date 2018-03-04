@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:build": "webpack --mode development -w",
+    "clean": "rimraf dist",
+    "dev:build": "npm run clean && webpack --mode development -w",
     "dev": "cross-env NODE_ENV=development nodemon dist/index.bundle.js",
     "build": "webpack --mode production"
   },
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/daydream-like/nodeapi#readme",
   "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",
     "express": "^4.16.2",
@@ -45,6 +47,7 @@
     "eslint-plugin-import": "^2.7.0",
     "morgan": "^1.9.0",
     "nodemon": "^1.17.1",
+    "rimraf": "^2.6.2",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.10",
     "webpack-node-externals": "^1.6.0"
