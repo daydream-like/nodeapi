@@ -23,8 +23,12 @@
   },
   "homepage": "https://github.com/daydream-like/nodeapi#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.2",
     "cross-env": "^5.1.3",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "helmet": "^3.12.0",
+    "mongoose": "^5.0.8"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -35,6 +39,7 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "^2.7.0",
+    "morgan": "^1.9.0",
     "nodemon": "^1.17.1",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.10",

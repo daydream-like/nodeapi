@@ -1,13 +1,14 @@
 import express from 'express';
-
+import constants from './config/constants';
+import './config/database';
 const app = express();
 
-const PORT = process.env.PORT || 4000;
 
-app.listen(PORT,err=>{      
+
+app.listen(constants.PORT,err=>{      
     if(err){
         throw err;
     }else{
-        console.log('server running success.....',`PORT---`,PORT,`NODE_ENV----`,process.env.NODE_ENV);
+        console.log('server running success.....',`PORT---`,constants.PORT,`NODE_ENV----`,process.env.NODE_ENV);
     }
 });
