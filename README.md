@@ -9,6 +9,6 @@ RESTful api with NodeJS
  - 使用joi来验证数据模型
 ### part3 add bcrypt and passport
 - 添加rimraf清除dist文件夹
-- crypt the user password
+- crypt the user password（用户注册登录这一块，采用 bcrypt 加密密码，JWT 认证授权的方案）
 - create the localstrategy with passport
 - can log a user
