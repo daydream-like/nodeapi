@@ -1,6 +1,8 @@
 # nodeapi
 RESTful api with NodeJS
-
+### part1 init package.json and webpack.config.js
+- package.json
+- webpack.config.js
 ### part2 setup the midddleware and mongdb
  - add mongoose ,bodyparse,morgan,compression,helmet
  - 添加config文件,新建constants.js
