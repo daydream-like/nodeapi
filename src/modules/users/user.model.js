@@ -1,7 +1,7 @@
 import mongoose, {Schema} from 'mongoose';
 import validator from 'validator';
 import {passwordReg} from './user.validation';
-import {hashSync} from 'bcrypt-nodejs';
+import {hashSync, compareSync} from 'bcrypt-nodejs';
 const UserSchema = new Schema({
     email: {
         type: String,
@@ -40,11 +40,11 @@ const UserSchema = new Schema({
         }
     }
 });
-UserSchema.pre('save', function(next){
+UserSchema.pre('save', function (next) {
     console.log(this);
     if (this.isModified('password')) {
         console.log(this);
-         this.password = this._hashPassword(this.password);
+        this.password = this._hashPassword(this.password);
     }
     return next();
 })
@@ -52,6 +52,9 @@ UserSchema.pre('save', function(next){
 UserSchema.methods = {
     _hashPassword(password) {
         return hashSync(password);
+    },
+    authenticateUser(password) {
+        return compareSync(password, this.password);
     }
 }
 export default mongoose.model('User', UserSchema);

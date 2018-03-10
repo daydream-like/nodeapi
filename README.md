@@ -14,3 +14,6 @@ RESTful api with NodeJS
 - crypt the user password（用户注册登录这一块，采用 bcrypt 加密密码，JWT 认证授权的方案）
 - create the localstrategy with passport
 - can log a user
+
+### part add passport and passport-local
+- passport 是一个NODE做登录验证的中间件，支持本地账号验证和第三方账号登录验证（OAuth和OpenID等），支持大多数Web网站和服务
