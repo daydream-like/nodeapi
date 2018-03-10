@@ -1,6 +1,7 @@
 
 const devConfig = {
-    MONGO_URL:'mongodb://localhost/makeannodejsapi-dev'
+    MONGO_URL:'mongodb://localhost/makeannodejsapi-dev',
+    JWT_SECRET:'likechris'
 }
 const testConfig = {
     MONGO_URL:'mongodb://localhost/makeannodejsapi-test'

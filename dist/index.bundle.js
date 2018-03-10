@@ -86,7 +86,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\n\nconst devConfig = {\n    MONGO_URL: 'mongodb://localhost/makeannodejsapi-dev'\n};\nconst testConfig = {\n    MONGO_URL: 'mongodb://localhost/makeannodejsapi-test'\n};\nconst prodConfig = {\n    MONGO_URL: 'mongodb://localhost/makeannodejsapi-prod'\n};\nconst defaultConfig = {\n    PORT: process.env.PORT || 4000\n};\nfunction envConfig(env) {\n    switch (env) {\n        case \"development\":\n            return devConfig;\n        case \"test\":\n            return testConfig;\n        default:\n            return prodConfig;\n    }\n}\n\nexports.default = Object.assign({}, defaultConfig, envConfig(\"development\"));\n\n//# sourceURL=webpack:///./src/config/constants.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\n\nconst devConfig = {\n    MONGO_URL: 'mongodb://localhost/makeannodejsapi-dev',\n    JWT_SECRET: 'likechris'\n};\nconst testConfig = {\n    MONGO_URL: 'mongodb://localhost/makeannodejsapi-test'\n};\nconst prodConfig = {\n    MONGO_URL: 'mongodb://localhost/makeannodejsapi-prod'\n};\nconst defaultConfig = {\n    PORT: process.env.PORT || 4000\n};\nfunction envConfig(env) {\n    switch (env) {\n        case \"development\":\n            return devConfig;\n        case \"test\":\n            return testConfig;\n        default:\n            return prodConfig;\n    }\n}\n\nexports.default = Object.assign({}, defaultConfig, envConfig(\"development\"));\n\n//# sourceURL=webpack:///./src/config/constants.js?");
 
 /***/ }),
 
@@ -146,7 +146,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n   value: true\n});\nexports.signUp = signUp;\nexports.login = login;\n\nvar _user = __webpack_require__(/*! ./user.model */ \"./src/modules/users/user.model.js\");\n\nvar _user2 = _interopRequireDefault(_user);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nasync function signUp(req, res) {\n   try {\n      const user = await _user2.default.create(req.body);\n      return res.status(200).json(user);\n   } catch (error) {\n      return res.status(500).json(error);\n   }\n}\n\nfunction login(req, res, next) {\n   res.status(200).json(req.user);\n   return next();\n}\n\n//# sourceURL=webpack:///./src/modules/users/user.controllers.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n   value: true\n});\nexports.signUp = signUp;\nexports.login = login;\n\nvar _user = __webpack_require__(/*! ./user.model */ \"./src/modules/users/user.model.js\");\n\nvar _user2 = _interopRequireDefault(_user);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nasync function signUp(req, res) {\n   try {\n      const user = await _user2.default.create(req.body);\n      return res.status(200).json(user);\n   } catch (error) {\n      return res.status(500).json(error);\n   }\n}\n\nfunction login(req, res, next) {\n   // console.log(request,'........');\n   res.status(200).json(req.user.toJSON());\n   return next();\n}\n\n//# sourceURL=webpack:///./src/modules/users/user.controllers.js?");
 
 /***/ }),
 
@@ -158,7 +158,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n   value: true\n});\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\n\nvar _mongoose = __webpack_require__(/*! mongoose */ \"mongoose\");\n\nvar _mongoose2 = _interopRequireDefault(_mongoose);\n\nvar _validator = __webpack_require__(/*! validator */ \"validator\");\n\nvar _validator2 = _interopRequireDefault(_validator);\n\nvar _user = __webpack_require__(/*! ./user.validation */ \"./src/modules/users/user.validation.js\");\n\nvar _bcryptNodejs = __webpack_require__(/*! bcrypt-nodejs */ \"bcrypt-nodejs\");\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nconst UserSchema = new _mongoose.Schema({\n    email: {\n        type: String,\n        required: [true, 'email is required!'],\n        trim: true,\n        unique: true,\n        validate: {\n            validator(email) {\n                return _validator2.default.isEmail(email);\n            },\n            message: '{VALUE} is not a valid email'\n        }\n\n    },\n    userName: {\n        type: String,\n        required: [true, 'userName is required!'],\n        trim: true\n    },\n    password: {\n        type: String,\n        required: [6, 'password must be longer!'],\n        trim: true,\n        minlength: 6,\n        validate: {\n            validator(password) {\n                return _user.passwordReg.test(password);\n            },\n            message: '{VALUE} is not a valid password'\n        }\n    }\n});\nUserSchema.pre('save', function (next) {\n    console.log(this);\n    if (this.isModified('password')) {\n        console.log(this);\n        this.password = this._hashPassword(this.password);\n    }\n    return next();\n});\n\nUserSchema.methods = {\n    _hashPassword(password) {\n        return (0, _bcryptNodejs.hashSync)(password);\n    },\n    authenticateUser(password) {\n        return (0, _bcryptNodejs.compareSync)(password, this.password);\n    }\n};\nexports.default = _mongoose2.default.model('User', UserSchema);\n\n//# sourceURL=webpack:///./src/modules/users/user.model.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\n\nvar _mongoose = __webpack_require__(/*! mongoose */ \"mongoose\");\n\nvar _mongoose2 = _interopRequireDefault(_mongoose);\n\nvar _validator = __webpack_require__(/*! validator */ \"validator\");\n\nvar _validator2 = _interopRequireDefault(_validator);\n\nvar _user = __webpack_require__(/*! ./user.validation */ \"./src/modules/users/user.validation.js\");\n\nvar _bcryptNodejs = __webpack_require__(/*! bcrypt-nodejs */ \"bcrypt-nodejs\");\n\nvar _jsonwebtoken = __webpack_require__(/*! jsonwebtoken */ \"jsonwebtoken\");\n\nvar _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);\n\nvar _constants = __webpack_require__(/*! ../../config/constants */ \"./src/config/constants.js\");\n\nvar _constants2 = _interopRequireDefault(_constants);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nconst UserSchema = new _mongoose.Schema({\n    email: {\n        type: String,\n        required: [true, 'email is required!'],\n        trim: true,\n        unique: true,\n        validate: {\n            validator(email) {\n                return _validator2.default.isEmail(email);\n            },\n            message: '{VALUE} is not a valid email'\n        }\n\n    },\n    userName: {\n        type: String,\n        required: [true, 'userName is required!'],\n        trim: true\n    },\n    password: {\n        type: String,\n        required: [6, 'password must be longer!'],\n        trim: true,\n        minlength: 6,\n        validate: {\n            validator(password) {\n                return _user.passwordReg.test(password);\n            },\n            message: '{VALUE} is not a valid password'\n        }\n    }\n});\nUserSchema.pre('save', function (next) {\n    console.log(this);\n    if (this.isModified('password')) {\n        console.log(this);\n        this.password = this._hashPassword(this.password);\n    }\n    return next();\n});\n\nUserSchema.methods = {\n    _hashPassword(password) {\n        return (0, _bcryptNodejs.hashSync)(password);\n    },\n    authenticateUser(password) {\n        return (0, _bcryptNodejs.compareSync)(password, this.password);\n    },\n    createToken() {\n        return _jsonwebtoken2.default.sign({\n            _id: this._id\n        }, _constants2.default.JWT_SECRET);\n    },\n    toJSON() {\n        return {\n            _id: this._id,\n            email: this.email,\n            userName: this.userName,\n            token: this.createToken()\n        };\n    }\n};\nexports.default = _mongoose2.default.model('User', UserSchema);\n\n//# sourceURL=webpack:///./src/modules/users/user.model.js?");
 
 /***/ }),
 
@@ -194,7 +194,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.authLocal = undefined;\n\nvar _passport = __webpack_require__(/*! passport */ \"passport\");\n\nvar _passport2 = _interopRequireDefault(_passport);\n\nvar _passportLocal = __webpack_require__(/*! passport-local */ \"passport-local\");\n\nvar _passportLocal2 = _interopRequireDefault(_passportLocal);\n\nvar _user = __webpack_require__(/*! ../modules/users/user.model */ \"./src/modules/users/user.model.js\");\n\nvar _user2 = _interopRequireDefault(_user);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nconst localOpts = {\n    usernameField: 'email'\n};\nconst localStrategy = new _passportLocal2.default(localOpts, async (email, password, done) => {\n    try {\n        const user = await _user2.default.findOne({ email });\n        console.log(email, '---', password);\n        console.log(_user2.default.authenticateUser);\n        if (!user) {\n            return done(null, false);\n        } else if (!user.authenticateUser(password)) {\n            return done(null, false);\n        }\n\n        return done(null, user);\n    } catch (e) {\n        return done(e, false);\n    }\n});\n_passport2.default.use(localStrategy);\nconst authLocal = exports.authLocal = _passport2.default.authenticate('local', { session: false });\n\n//# sourceURL=webpack:///./src/services/auth.services.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\nexports.authJwt = exports.authLocal = undefined;\n\nvar _passport = __webpack_require__(/*! passport */ \"passport\");\n\nvar _passport2 = _interopRequireDefault(_passport);\n\nvar _passportLocal = __webpack_require__(/*! passport-local */ \"passport-local\");\n\nvar _passportLocal2 = _interopRequireDefault(_passportLocal);\n\nvar _passportJwt = __webpack_require__(/*! passport-jwt */ \"passport-jwt\");\n\nvar _passportJwt2 = _interopRequireDefault(_passportJwt);\n\nvar _user = __webpack_require__(/*! ../modules/users/user.model */ \"./src/modules/users/user.model.js\");\n\nvar _user2 = _interopRequireDefault(_user);\n\nvar _constants = __webpack_require__(/*! ../config/constants */ \"./src/config/constants.js\");\n\nvar _constants2 = _interopRequireDefault(_constants);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nconst ExtractJwt = _passportJwt2.default.ExtractJwt;\nconst JwtStrategy = _passportJwt2.default.Strategy;\nconst localOpts = {\n    usernameField: 'email'\n};\nconst localStrategy = new _passportLocal2.default(localOpts, async (email, password, done) => {\n    try {\n        const user = await _user2.default.findOne({ email });\n        if (!user) {\n            return done(null, false);\n        } else if (!user.authenticateUser(password)) {\n            return done(null, false);\n        }\n\n        return done(null, user);\n    } catch (e) {\n        return done(e, false);\n    }\n});\n//console.log('passportJWT', passportJWT.ExtractJwt.fromAuthHeaderWithScheme)\nconst jwtOpts = {\n    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('authorization'),\n    secretOrKey: _constants2.default.JWT_SECRET\n};\n\nconst jwtStrategy = new JwtStrategy(jwtOpts, async (payload, done) => {\n    try {\n        const user = await _user2.default.findById(payload._id);\n\n        if (!user) {\n            return done(null, false);\n        }\n\n        return done(null, user);\n    } catch (e) {\n        return done(e, false);\n    }\n});\n_passport2.default.use(localStrategy);\n_passport2.default.use(jwtStrategy);\nconst authLocal = exports.authLocal = _passport2.default.authenticate('local', { session: false });\nconst authJwt = exports.authJwt = _passport2.default.authenticate('jwt', { session: false });\n\n//# sourceURL=webpack:///./src/services/auth.services.js?");
 
 /***/ }),
 
@@ -275,6 +275,17 @@ eval("module.exports = require(\"joi\");\n\n//# sourceURL=webpack:///external_%2
 
 /***/ }),
 
+/***/ "jsonwebtoken":
+/*!*******************************!*\
+  !*** external "jsonwebtoken" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"jsonwebtoken\");\n\n//# sourceURL=webpack:///external_%22jsonwebtoken%22?");
+
+/***/ }),
+
 /***/ "mongoose":
 /*!***************************!*\
   !*** external "mongoose" ***!
@@ -305,6 +316,17 @@ eval("module.exports = require(\"morgan\");\n\n//# sourceURL=webpack:///external
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"passport\");\n\n//# sourceURL=webpack:///external_%22passport%22?");
+
+/***/ }),
+
+/***/ "passport-jwt":
+/*!*******************************!*\
+  !*** external "passport-jwt" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"passport-jwt\");\n\n//# sourceURL=webpack:///external_%22passport-jwt%22?");
 
 /***/ }),
 
